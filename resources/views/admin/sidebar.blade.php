@@ -51,6 +51,11 @@
                                 <h3>Posting</h3>
                             </a>
                         </li>
+                        <li class="nav-item {{ Request::is('draft') ? 'active' : '' }}">
+                            <a href="/draft" class="nav-link">
+                                <h3>Draf</h3>
+                            </a>
+                        </li>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>

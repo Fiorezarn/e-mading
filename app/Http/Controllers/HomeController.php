@@ -51,15 +51,23 @@ class HomeController extends Controller
             'totalUser' => $this->User->where('level', 2)->get()->count(),
             'totalPosting' => $this->Posting->get()->count()
         ];
-        return view('admin.admin',$data);
+        return view('admin.admin', $data);
     }
 
     public function posting()
     {
         $data = [
-            'posting' => $this->Posting->get()
+            'posting' => $this->Posting->where('status', 1)->get()
         ];
         return view('admin.v_dataposting', $data);
+    }
+
+    public function draft()
+    {
+        $data = [
+            'posting' => $this->Posting->where('status', 0)->get()
+        ];
+        return view('admin.v_draftposting', $data);
     }
 
     public function detail($id)
@@ -96,11 +104,11 @@ class HomeController extends Controller
         $file->move(public_path('posting_img'), $fileName);
 
         $data = [
-            // 'id' => Request()->id,
             'title' => Request()->title,
             'story' => Request()->story,
             'picture' => $fileName,
             'category' => Request()->category,
+            'status' => 1,
         ];
 
         $this->Posting->addData($data);
@@ -117,6 +125,18 @@ class HomeController extends Controller
         ];
         return view('admin.v_editposting', $data);
     }
+
+    public function editdraft($id)
+    {
+        if (!$this->Posting->detailData($id)) {
+            abort(404);
+        }
+        $data = [
+            'posting' => $this->Posting->detailData($id),
+        ];
+        return view('admin.v_editdraft', $data);
+    }
+
     public function update($id)
     {
         Request()->validate([
@@ -154,6 +174,31 @@ class HomeController extends Controller
             ];
             $this->Posting->editData($id, $data);
         }
+        return redirect()->route('posting')->with('pesan', 'Data Berhasil Di Update !!');
+    }
+
+    public function insertdraft()
+    {
+        // Check if the 'picture' file is present in the request
+        if (Request()->hasFile('picture')) {
+            // Upload photo
+            $file = Request()->picture;
+            $fileName = Request()->title . '.' . $file->extension();
+            $file->move(public_path('posting_img'), $fileName);
+        } else {
+            $fileName = null; // or provide a default file name or handle it accordingly
+        }
+
+        $data = [
+            'title' => Request()->title,
+            'story' => Request()->story,
+            'picture' => $fileName,
+            'category' => Request()->category,
+            'status' => 0,
+        ];
+
+        $this->Posting->addData($data);
+        return response()->json(['message' => 'Data successfully saved as draft.'], 200);
         return redirect()->route('posting')->with('pesan', 'Data Berhasil Di Update !!');
     }
 

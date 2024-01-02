@@ -6,12 +6,6 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-        {{-- <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{{ asset('AdminLTE/dist') }}//img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
-                width="60">
-        </div> --}}
-
         @include('admin.navbar')
 
         @include('admin.sidebar')
@@ -32,77 +26,101 @@
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
-                    <form action="/posting/insert" method="POST" enctype="multipart/form-data">
-                        @csrf
+                </div><!-- /.container-fluid -->
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <form id="postingForm" action="/posting/insert" method="POST" enctype="multipart/form-data">
+                            @csrf
 
-                        <div class="content">
-                            <div class="row">
-                                <div class="col-sm-6">
-
-                                    <div class="form-group">
-                                        <label for="">Judul Posting</label>
-                                        <input name="title" class="form-control" value="{{ old('title') }}">
-                                        <div class="text-danger">
-                                            @error('title')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="">Gambar</label>
-                                        <input type="file" name="picture" class="form-control">
-                                        <div class="text-danger">
-                                            @error('picture')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="">Isi Posting</label>
-                                        <textarea class="form-control" id="story" name="story">{{ old('story') }}</textarea>
-                                        <div class="text-danger">
-                                            @error('story')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label for="">Category</label>
-                                        <input name="category" class="form-control" value="{{ old('category') }}">
-                                        <div class="text-danger">
-                                            @error('category')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <a href="/posting" class="btn btn-danger btn-sm">Close</a>
-                                        <button class="btn btn-primary btn-sm">Save</button>
-                                    </div>
+                            <div class="form-group">
+                                <label for="title">Judul Posting</label>
+                                <input name="title" id="title" class="form-control" value="{{ old('title') }}">
+                                <div class="text-danger">
+                                    @error('title')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
-                    </form>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="picture">Gambar</label>
+                                <input type="file" name="picture" id="picture" class="form-control">
+                                <div class="text-danger">
+                                    @error('picture')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="story">Isi Posting</label>
+                                <textarea class="form-control" id="story" name="story">{{ old('story') }}</textarea>
+                                <div class="text-danger">
+                                    @error('story')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <input name="category" id="category" class="form-control"
+                                    value="{{ old('category') }}">
+                                <div class="text-danger">
+                                    @error('category')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button id="buttonSave" class="btn btn-primary btn-sm">Save</button>
+                            </div>
+                        </form>
+                        <div class="form-group">
+                            <button id="buttonCancel" class="btn btn-danger btn-sm">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div><!-- /.container-fluid -->
-    </div>
-    </div>
+        </div><!-- /.wrapper -->
 
-    </div>
-    @include('admin.footer')
+        @include('admin.footer')
+        @include('admin.script')
 
+        <script>
+            $(document).ready(function() {
+                $('#story').summernote();
 
-    @include('admin.script')
-    <script>
-        $(document).ready(function() {
-            $('#story').summernote();
-        });
-    </script>
+                $('#buttonCancel').on('click', function() {
+                    var title = $('#title').val();
+                    var story = $('#story').summernote('code');
+                    var category = $('#category').val();
+                    var formData = new FormData($('#postingForm')[0]);
+                    formData.append('_token', "{{ csrf_token() }}");
+
+                    if (title.length > 0 || story.length > 0 || category.length > 0) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/posting/draf',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                console.log(response);
+                            },
+                            error: function(error) {
+                                console.error(error);
+                            }
+                        });
+                    } else {
+                        window.location.href = '/posting';
+                    }
+                });
+            });
+        </script>
 </body>
 
 </html>

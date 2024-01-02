@@ -28,6 +28,9 @@ Route::get('/posting', [App\Http\Controllers\HomeController::class, 'posting'])-
 Route::get('/posting/detailposting/{id}', [App\Http\Controllers\HomeController::class, 'detail']);
 Route::get('/posting/add', [App\Http\Controllers\HomeController::class, 'addPosting']);
 Route::post('/posting/insert', [App\Http\Controllers\HomeController::class, 'insertposting']);
+Route::get('/draft', [App\Http\Controllers\HomeController::class, 'draft'])->name('draft');
+Route::post('/posting/insertdraft', [App\Http\Controllers\HomeController::class, 'insertdraft'])->name('draftposting');
 Route::get('/posting/edit/{id}', [App\Http\Controllers\HomeController::class, 'edit']);
+Route::get('/draft/edit/{id}', [App\Http\Controllers\HomeController::class, 'editdraft']);
 Route::post('/posting/update/{id}', [App\Http\Controllers\HomeController::class, 'update']);
 Route::get('/posting/delete/{id}', [App\Http\Controllers\HomeController::class, 'delete']);
