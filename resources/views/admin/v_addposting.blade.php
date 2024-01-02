@@ -61,13 +61,14 @@
 
                                     <div class="form-group">
                                         <label for="">Isi Posting</label>
-                                        <input name="story" class="form-control" value="{{ old('story') }}">
+                                        <textarea class="form-control" id="story" name="story">{{ old('story') }}</textarea>
                                         <div class="text-danger">
                                             @error('story')
                                                 {{ $message }}
                                             @enderror
                                         </div>
                                     </div>
+
 
                                     <div class="form-group">
                                         <label for="">Category</label>
@@ -97,6 +98,11 @@
 
 
     @include('admin.script')
+    <script>
+        $(document).ready(function() {
+            $('#story').summernote();
+        });
+    </script>
 </body>
 
 </html>

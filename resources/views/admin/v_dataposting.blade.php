@@ -67,7 +67,7 @@
                                 <td>{{ $item->title }}</td>
                                 <td><img src="{{ asset('posting_img/' . $item->picture) }}" alt="{{ $item->title }}"
                                         width="90px"></td>
-                                <td>{{ $item->story }}</td>
+                                <td>{!! $item->story !!}</td>
                                 <td>{{ $item->category }}</td>
                                 <td>
                                     <a href="/posting/detailposting/{{ $item->id }}" class="btn btn-success">Detail</a>

@@ -34,15 +34,14 @@
                     </div><!-- /.row -->
                     <form action="/posting/update/{{ $posting->id }}" method="POST" enctype="multipart/form-data">
                         @csrf
-    
+
                         <div class="content">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="">Id</label>
-                                        <input name="id" class="form-control" value="{{ $posting->id }}"
-                                        readonly>
-                                            <div class="text-danger">
+                                        <input name="id" class="form-control" value="{{ $posting->id }}" readonly>
+                                        <div class="text-danger">
                                             @error('id')
                                                 {{ $message }}
                                             @enderror
@@ -53,22 +52,23 @@
                                         <label for="">Nama posting</label>
                                         <input name="title" class="form-control" value="{{ $posting->title }}">
                                         <div class="text-danger">
-                                        @error('title')
-                                            {{ $message }}
-                                        @enderror
+                                            @error('title')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="">Isi Posting</label>
-                                        <input name="story" class="form-control" value="{{ $posting->story }}">
+                                        <textarea class="form-control" id="story" name="story">{{ $posting->story }}</textarea>
                                         <div class="text-danger">
-                                        @error('story')
-                                        {{ $message }}
-                                        @enderror
+                                            @error('story')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
                                     </div>
-                                    </div>
-                                    
+
+
                                     <div class="col-sm 12">
                                         <div class="col-sm-4">
                                             <img src="{{ url('posting_img/' . $posting->picture) }}" width="150px">
@@ -89,7 +89,7 @@
                                         <input name="category" class="form-control" value="{{ $posting->category }}">
                                         <div class="text-danger">
                                             @error('category')
-                                            {{ $message }}
+                                                {{ $message }}
                                             @enderror
                                         </div>
                                     </div>
@@ -103,15 +103,20 @@
                 </div>
             </div>
         </div>
-                </div><!-- /.container-fluid -->
-            </div>
+    </div><!-- /.container-fluid -->
+    </div>
     </div>
 
-</div>
+    </div>
     @include('admin.footer')
 
 
     @include('admin.script')
+    <script>
+        $(document).ready(function() {
+            $('#story').summernote();
+        });
+    </script>
 </body>
 
 </html>
