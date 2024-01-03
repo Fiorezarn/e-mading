@@ -28,7 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $data = [
-            'posting' => $this->Posting->get()
+            'posting' => $this->Posting->where('status', 1)->get()
         ];
         return view('welcome', $data);
     }

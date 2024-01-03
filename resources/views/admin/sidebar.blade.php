@@ -53,7 +53,7 @@
                         </li>
                         <li class="nav-item {{ Request::is('draft') ? 'active' : '' }}">
                             <a href="/draft" class="nav-link">
-                                <h3>Draf</h3>
+                                <h3>Draft</h3>
                             </a>
                         </li>
                 </nav>

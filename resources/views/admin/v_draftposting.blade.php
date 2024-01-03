@@ -18,7 +18,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Daftar Posting</h1>
+                            <h1 class="m-0">Draft Posting</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -70,7 +70,6 @@
                                 <td>{!! $item->story !!}</td>
                                 <td>{{ $item->category }}</td>
                                 <td>
-                                    <a href="/posting/detailposting/{{ $item->id }}" class="btn btn-success">Detail</a>
                                     <a href="draft/edit/{{ $item->id }}" class="btn btn-warning">Edit</a>
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
                                         data-target="#delete{{ $item->id }}">

@@ -26,7 +26,7 @@
                     <div class="card-body" style="background-color: #EBE3D5;">
                         <h5 class="card-title">{{ $item->title }}</h5>
                         {{-- Truncate the story to 50 words --}}
-                        <p class="card-text">{{ Illuminate\Support\Str::limit($item->story, $limit = 50, $end = '...') }}</p>
+                        <p class="card-text">{!! Illuminate\Support\Str::limit( $item->story, $limit = 50, $end = '...') !!}</p>
                         <div class="card-footer text-center border-0" style="background-color: #EBE3D5;">
                             <a href="/detailposting/{{{$item->id}}}" class="btn btn-detail" style="background-color: #B0A695;">Detail</a>
                         </div>
